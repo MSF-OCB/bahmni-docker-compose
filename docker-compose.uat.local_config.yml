@@ -1,0 +1,61 @@
+version: "3.5"
+
+services:
+
+  bahmni-uat:
+    image: localhost:5000/${image_name}:${image_version_uat}
+    hostname: ${bahmni_implementation_name}-emr-uat
+    container_name: ${bahmni_implementation_name}-emr-uat-container
+    tmpfs: /tmp
+    environment:
+      - BAHMNI_IMPL_NAME=${bahmni_implementation_name}
+      - BAHMNI_SERVER_MODE=active
+      - BAHMNI_SETUP_REPLICATION=no
+      - BAHMNI_OPENELIS_ENABLED=$bahmni_openelis_enabled
+      - BAHMNI_REPORTS_ENABLED=$bahmni_reports_enabled
+      - BAHMNI_REPLICATION_USERNAME=$bahmni_replication_username
+      - BAHMNI_REPLICATION_PASSWORD=$bahmni_replication_password
+      - BAHMNI_ACTIVE_HOST=localhost
+      - BAHMNI_PASSIVE_HOST=
+      - BAHMNI_ENC_FILE_PATH=$bahmni_enc_file_path
+      - BAHMNI_SKIP_BACKUPS=yes
+      - BAHMNI_BACKUP_PASSIVE=no
+      - BAHMNI_BACKUP_NESTOR=no
+      - BAHMNI_NESTOR_BACKUP_DIR=$nestor_backup_dir
+    command: ["/start.sh", "active", "no"]
+    restart: always
+    ports:
+      - target: 80
+        published: 80
+      - target: 443
+        published: 443
+      - target: 8050
+        published: 8050
+      - target: 8051
+        published: 8051
+      - target: 8052
+        published: 8052
+    volumes:
+      - type: volume
+        source: bahmni_uat_mysql_data
+        target: /var/lib/mysql
+      - type: volume
+        source: bahmni_uat_pgsql_data
+        target: /var/lib/pgsql
+      - type: bind
+        source: /opt/${bahmni_implementation_name}-bahmni-config
+        target: /etc/bahmni-installer/deployment-artifacts/${bahmni_implementation_name}_config
+        read_only: true
+      - type: bind
+        source: ${bahmni_enc_host_path}
+        target: ${bahmni_enc_file_path}
+        read_only: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+
+volumes:
+  bahmni_uat_mysql_data:
+  bahmni_uat_pgsql_data:
+
