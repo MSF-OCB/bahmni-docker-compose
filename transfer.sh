@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-IMG=$1
-VERSION=$2
-DEST=$3
-KEY=$4
+IMG="$1"
+VERSION="$2"
+KEY="$3"
+DEST="$4"
+PORT="${5:-22}"
 
-if [ -z "${IMG}" ] || [ -z "${VERSION}" ] || [ -z "${DEST}" ] || [ -z "${KEY}" ]; then
-  echo "usage: transfer.sh <image> <version> <host> <private_key>"
+if [ -z "${IMG}" ] || [ -z "${VERSION}" ] || [ -z "${DEST}" ] || [ -z "${PORT}" ] || [ -z "${KEY}" ]; then
+  echo "usage: transfer.sh <image> <version> <private key> <host> [<port>]"
   exit 1
 fi
 
@@ -27,13 +28,13 @@ if [ ! -f "${ARCHIVE}" ]; then
     fi
     exit 1
   fi
-  
+
   mv ${ARCHIVE}.tmp ${ARCHIVE}
 fi
 
 DONE=1
 while [ ${DONE} -ne 0 ]; do
-  rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" ${ARCHIVE} ${DEST}:/opt/
+  rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -F ${HOME}/.ssh/config -p ${PORT}" ${ARCHIVE} ${DEST}:/opt/
   DONE=$?
   if [ ${DONE} -ne 0 ]; then
     sleep 30
