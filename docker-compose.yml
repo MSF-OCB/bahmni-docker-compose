@@ -47,10 +47,17 @@ services:
         source: /etc/localtime
         target: /etc/localtime
         read_only: true
+    networks:
+      - default
+      - web
 
 volumes:
   bahmni_bahmni_backup:
   bahmni_mysql_data:
   bahmni_pgsql_data:
   bahmni_bahmni_home:
+
+networks:
+  web:
+    external: yes
 

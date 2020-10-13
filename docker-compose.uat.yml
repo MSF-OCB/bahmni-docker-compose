@@ -44,8 +44,15 @@ services:
         source: /etc/localtime
         target: /etc/localtime
         read_only: true
+    networks:
+      - default
+      - web
 
 volumes:
   bahmni_uat_mysql_data:
   bahmni_uat_pgsql_data:
+
+networks:
+  web:
+    external: yes
 
