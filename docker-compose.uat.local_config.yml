@@ -8,3 +8,4 @@ services:
         source: /opt/${bahmni_implementation_name}-bahmni-config
         target: /etc/bahmni-installer/deployment-artifacts/${bahmni_implementation_name}_config
         read_only: true
+

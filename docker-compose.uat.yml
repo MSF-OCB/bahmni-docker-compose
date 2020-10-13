@@ -24,11 +24,11 @@ services:
       - BAHMNI_NESTOR_BACKUP_DIR=$nestor_backup_dir
     command: ["/start.sh", "active", "no"]
     restart: always
-    ports:
-      - target: 80
-        published: 80
-      - target: 443
-        published: 443
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bahmni.rule=Host(`${EMR_HOST_NAME:-local-test.emr.ocb.msf.org}`)
+    expose:
+      - 80
     volumes:
       - type: volume
         source: bahmni_uat_mysql_data
