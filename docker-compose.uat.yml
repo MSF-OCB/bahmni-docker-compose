@@ -26,7 +26,8 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.bahmni.rule=Host(`${EMR_HOST_NAME:-local-test.emr.ocb.msf.org}`)
+      - traefik.http.routers.emr-uat-${INSTANCE_NAME:-}.rule=Host(`${EMR_HOST_NAME:-local-test.emr.ocb.msf.org}`)
+      - traefik.http.routers.emr-uat-${INSTANCE_NAME:-}.tls.certresolver=letsencrypt_dns
     expose:
       - 80
     volumes:
