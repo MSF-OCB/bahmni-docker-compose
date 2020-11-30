@@ -11,24 +11,24 @@ services:
       - BAHMNI_IMPL_NAME=${bahmni_implementation_name}
       - BAHMNI_SERVER_MODE=active
       - BAHMNI_SETUP_REPLICATION=no
-      - BAHMNI_OPENELIS_ENABLED=$bahmni_openelis_enabled
-      - BAHMNI_REPORTS_ENABLED=$bahmni_reports_enabled
-      - BAHMNI_REPLICATION_USERNAME=$bahmni_replication_username
-      - BAHMNI_REPLICATION_PASSWORD=$bahmni_replication_password
+      - BAHMNI_OPENELIS_ENABLED=${bahmni_openelis_enabled}
+      - BAHMNI_REPORTS_ENABLED=${bahmni_reports_enabled}
+      - BAHMNI_REPLICATION_USERNAME=${bahmni_replication_username}
+      - BAHMNI_REPLICATION_PASSWORD=${bahmni_replication_password}
       - BAHMNI_ACTIVE_HOST=localhost
       - BAHMNI_PASSIVE_HOST=
-      - BAHMNI_ENC_FILE_PATH=$bahmni_enc_file_path
+      - BAHMNI_ENC_FILE_PATH=${bahmni_enc_file_path}
       - BAHMNI_SKIP_BACKUPS=yes
       - BAHMNI_BACKUP_PASSIVE=no
       - BAHMNI_BACKUP_NESTOR=no
-      - BAHMNI_NESTOR_BACKUP_DIR=$nestor_backup_dir
+      - BAHMNI_NESTOR_BACKUP_DIR=${nestor_backup_dir}
     command: ["/start.sh", "active", "no"]
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.emr-uat-${INSTANCE_NAME:-}.entrypoints=websecure"
-      - "traefik.http.routers.emr-uat-${INSTANCE_NAME:-}.rule=Host(`${EMR_HOST_NAME:-local-test.emr.ocb.msf.org}`)"
-      - "traefik.http.routers.emr-uat-${INSTANCE_NAME:-}.tls.certresolver=letsencrypt_dns"
+      - "traefik.http.routers.emr-uat-${bahmni_implementation_name}.entrypoints=websecure"
+      - "traefik.http.routers.emr-uat-${bahmni_implementation_name}.rule=Host(`${bahmni_host_name:-local-test.emr.ocb.msf.org}`)"
+      - "traefik.http.routers.emr-uat-${bahmni_implementation_name}.tls.certresolver=letsencrypt_dns"
     expose:
       - 80
     volumes:
