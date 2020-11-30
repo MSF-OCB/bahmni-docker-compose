@@ -5,9 +5,9 @@ services:
   bahmni:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.emr-active-${bahmni_implementation_name}-${mode}.entrypoints=websecure"
-      - "traefik.http.routers.emr-active-${bahmni_implementation_name}-${mode}.rule=Host(`${bahmni_host_name:-local.emr.ocb.msf.org}`)"
-      - "traefik.http.routers.emr-active-${bahmni_implementation_name}-${mode}.tls.certresolver=letsencrypt_dns"
+      - "traefik.http.routers.emr-${bahmni_implementation_name}-${mode}.entrypoints=websecure"
+      - "traefik.http.routers.emr-${bahmni_implementation_name}-${mode}.rule=Host(`${bahmni_host_name:-local.emr.ocb.msf.org}`)"
+      - "traefik.http.routers.emr-${bahmni_implementation_name}-${mode}.tls.certresolver=letsencrypt_dns"
     expose:
       - 80
     ports:
