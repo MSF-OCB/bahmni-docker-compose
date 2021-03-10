@@ -1,0 +1,8 @@
+version: '3.5'
+
+services:
+
+  bahmni:
+    ports:
+      - target: 80
+        published: ${public_port}
