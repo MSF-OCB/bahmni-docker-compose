@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+
+  bahmni:
+    ports:
+      - "127.0.0.1:80:${public_port}"
+      - "::1:80:${public_port}"
+
