@@ -3,7 +3,7 @@
 This repo contains several compose files.
 The main `docker-compose.yml` file defines the base set-up, you can then add one of the following files:
 1. `docker-compose.active.yml`: start an EMR behind Traefik, and request certificates from Let's Encrypt. Used when `mode = active`.
-1. `docker-compose.passive.yml`: start an EMR without any web interface. Used when `mode - passive`.
+1. `docker-compose.passive.yml`: start an EMR without any web interface. Used when `mode = passive`.
 2. `docker-compose.local_port.yml`: start an EMR with a local port exposed on localhost.
 
 A typical command to start an active server, looks therefore like this:
