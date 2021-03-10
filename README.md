@@ -1,5 +1,22 @@
 # bahmni-docker-compose
 
+This repo contains several compose files.
+The main `docker-compose.yml` file defines the base set-up, you can then add one of the following files:
+1. `docker-compose.active.yml`: start an EMR behind Traefik, and request certificates from Let's Encrypt. Used when `mode = active`.
+1. `docker-compose.passive.yml`: start an EMR without any web interface. Used when `mode - passive`.
+2. `docker-compose.local_port.yml`: start an EMR with a local port exposed on localhost.
+
+A typical command to start an active server, looks therefore like this:
+```
+docker-compose -f docker-compose.yml -f docker-compose.active.yml up -d
+```
+
+There are also two files to start a UAT version, these are independent of the main `docker-compose.yml` file.
+You can start a UAT server like this:
+```
+docker-compose -f docker-compose.uat.yml up -d
+```
+
 ## On the Bahmni server
 
 Create the target directory in `/opt`:
@@ -7,20 +24,9 @@ Create the target directory in `/opt`:
 sudo mkdir -p /opt/bahmni
 ```
 
-Give permissions to the required users:
-```
-sudo setfacl -m "u:<username>:rwX" /opt/bahmni
-sudo setfacl -m "d:u:<username>:rwX" /opt/bahmni
-```
-
 Clone this repo:
 ```
 git clone https://github.com/MSF-OCB/bahmni-docker-compose/ /opt/bahmni
-```
-
-If you have trouble login in, you can also copy your (passphrase protected!!) ssh key to the server, add it to your github account and clone via ssh:
-```
-git clone git@github.com:MSF-OCB/bahmni-docker-compose.git /opt/bahmni/
 ```
 
 And copy over the config file and edit it:
@@ -29,19 +35,8 @@ cp .env.template .env
 vim .env
 ```
 
-## On the development machine
-
-From the development machine (nixos-dev in Ixelles) we set up a reverse tunnel to access the Docker registry:
-```
-ssh -N -R 5000:localhost:5000 maadi-emr-a
-```
-
-## On the Bahmni server
-
 Pull the image, bring up the container and watch the logs:
 ```
-docker-compose down
-docker-compose pull
 docker-compose up -d
 docker-compose logs -f
 ```
