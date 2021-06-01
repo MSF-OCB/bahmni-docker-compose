@@ -4,6 +4,6 @@ services:
 
   bahmni:
     ports:
-      - "127.0.0.1:80:${public_port}"
-      - "::1:80:${public_port}"
+      - "127.0.0.1:${public_port}:80"
+      - "::1:${public_port}:80"
 
